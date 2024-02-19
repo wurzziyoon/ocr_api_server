@@ -20,19 +20,19 @@ file = open(r'test.jpg', 'rb').read()
 # file = open(r'test_calc.png', 'rb').read()
 
 
-api_url = f"{host}/ocr/file"
+api_url = f"{host}/ocr/baidu/file"
+resp = requests.post(api_url, files={'image': file},headers={"Preprocessing","1"})
+print(f"{api_url=}, {resp.text=}")
+
+api_url = f"{host}/ocr/ddddocr/file/json"
 resp = requests.post(api_url, files={'image': file})
 print(f"{api_url=}, {resp.text=}")
 
-api_url = f"{host}/ocr/file/json"
-resp = requests.post(api_url, files={'image': file})
+api_url = f"{host}/ocr/ddddocr/b64"
+resp = requests.post(api_url, data=base64.b64encode(file).decode(),headers={"Preprocessing","1"})
 print(f"{api_url=}, {resp.text=}")
 
-api_url = f"{host}/ocr/b64"
-resp = requests.post(api_url, data=base64.b64encode(file).decode())
-print(f"{api_url=}, {resp.text=}")
-
-api_url = f"{host}/ocr/b64/json"
+api_url = f"{host}/ocr/baidu/b64/json"
 resp = requests.post(api_url, data=base64.b64encode(file).decode())
 print(f"{api_url=}, {resp.text=}")
 

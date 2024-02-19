@@ -3,7 +3,11 @@
 
 **建议python版本3.7-3.9 64位**
 
-再有不好好看文档的我就不管了啊！！！
+
+## 基于sml2h3/ocr_api_server & eric1932/HDSky_captcha_helper修改
+* 可通过url拉取图片
+* 通过ocr中的provider可以选择免费的ddddocr或者百度ocr，可以在多次失败的情况下最后使用百度ocr保底
+* 可通过header参数**Preprocessing**进行图片预处理增加识别正确率
 
 # 运行方式
 
@@ -39,7 +43,7 @@ python ocr_server.py --port 9898 --ocr --old --det
 ## docker运行方式(目测只能在Linux下部署)
 
 ```shell
-git clone https://github.com/sml2h3/ocr_api_server.git
+git clone https://github.com/wurzziyoon/ocr_api_server.git
 # docker怎么安装？百度吧
 
 cd ocr_api_server
@@ -50,7 +54,14 @@ cd ocr_api_server
 docker build -t ocr_server:v1 .
 
 # 运行镜像
-docker run -p 9898:9898 -d ocr_server:v1
+docker run -p 9898:9898 -d \
+  -e APP_ID=<YOUR_APP_ID> \
+  -e API_KEY=<YOUR_API_KEY> \
+  -e SECRET_KEY=<YOUR_API_SECRET> \ 
+  -e COOKIE=<GET_URL_IMAGE_REQUEST_COOKIE> \ 
+  -e PROXY=<GET_URL_IMAGE_REQUEST_PROXY> \ 
+  --restart unless-stopped \
+  ocr_server:v1
 
 ```
 
@@ -71,8 +82,9 @@ docker run -p 9898:9898 -d ocr_server:v1
 # 例子：
 
 # OCR请求
-# resp = requests.post("http://{host}:{port}/ocr/file", files={'image': image_bytes})
-# resp = requests.post("http://{host}:{port}/ocr/b64/text", data=base64.b64encode(file).decode())
+# resp = requests.post("http://{host}:{port}/ocr/{ddddocr | baidu}/file", files={'image': image_bytes})
+# resp = requests.post("http://{host}:{port}/ocr/{ddddocr | baidu}/b64/text", data=base64.b64encode(file).decode())
+# resp = requests.post("http://{host}:{port}/ocr/{ddddocr | baidu}/b64/text", data='https://xxxxx.com/xxxxx')
 
 # 目标检测请求
 # resp = requests.post("http://{host}:{port}/det/file", files={'image': image_bytes})
