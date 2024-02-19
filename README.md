@@ -57,9 +57,9 @@ docker build -t ocr_server:v1 .
 docker run -p 9898:9898 -d \
   -e APP_ID=<YOUR_APP_ID> \
   -e API_KEY=<YOUR_API_KEY> \
-  -e SECRET_KEY=<YOUR_API_SECRET> \ 
-  -e COOKIE=<GET_URL_IMAGE_REQUEST_COOKIE> \ 
-  -e PROXY=<GET_URL_IMAGE_REQUEST_PROXY> \ 
+  -e SECRET_KEY=<YOUR_API_SECRET> \
+  -e COOKIE=<GET_URL_IMAGE_REQUEST_COOKIE> \
+  -e PROXY=<GET_URL_IMAGE_REQUEST_PROXY> \
   --restart unless-stopped \
   ocr_server:v1
 
