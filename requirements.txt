@@ -6,3 +6,4 @@ fastapi
 numpy
 opencv-python
 uvicorn
+chardet
